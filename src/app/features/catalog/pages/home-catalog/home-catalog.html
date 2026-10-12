@@ -1,0 +1,67 @@
+<div class="catalog">
+  <aside class="filters" aria-label="Filtros do catálogo">
+    <h2 class="filters__heading">Filtros</h2>
+
+    <section class="filters__group">
+      <h3 class="filters__title">Tamanho</h3>
+      <div class="filters__chips">
+        @for (size of sizes; track size) {
+          <button
+            type="button"
+            class="chip"
+            [class.chip--active]="isSizeActive(size)"
+            (click)="toggleSize(size)"
+          >
+            {{ size }}
+          </button>
+        }
+      </div>
+    </section>
+
+    <section class="filters__group">
+      <h3 class="filters__title">Condição</h3>
+      <div class="filters__stack">
+        @for (condition of conditions; track condition) {
+          <button
+            type="button"
+            class="option"
+            [class.option--active]="isConditionActive(condition)"
+            (click)="toggleCondition(condition)"
+          >
+            {{ condition }}
+          </button>
+        }
+      </div>
+    </section>
+
+    <section class="filters__group">
+      <h3 class="filters__title">Faixa de preço</h3>
+      <div class="filters__stack">
+        @for (range of priceRanges; track range.id) {
+          <button
+            type="button"
+            class="option"
+            [class.option--active]="selectedPriceRange() === range.id"
+            (click)="selectPriceRange(range.id)"
+          >
+            {{ range.label }}
+          </button>
+        }
+      </div>
+    </section>
+  </aside>
+
+  <section class="catalog__grid-wrap" aria-label="Peças do bazar">
+    <header class="catalog__meta">
+      <p>{{ filteredProducts().length }} peças encontradas</p>
+    </header>
+
+    <div class="catalog__grid">
+      @for (product of filteredProducts(); track product.id) {
+        <app-product-card [product]="product" />
+      } @empty {
+        <p class="catalog__empty">Nenhuma peça combina com esses filtros.</p>
+      }
+    </div>
+  </section>
+</div>
